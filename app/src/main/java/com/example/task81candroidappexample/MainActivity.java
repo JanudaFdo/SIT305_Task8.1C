@@ -59,33 +59,26 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Add user message to the chat
         addUserMessage(userMessage);
 
-        // Clear input box
         chatInputBox.setText("");
 
-        // Show ProgressBar
         progressBar.setVisibility(View.VISIBLE);
 
-        String url = "http://10.0.2.2:5000/chat"; // Update to machine IP for physical device
+        String url = "http://10.0.2.2:5000/chat";
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 response -> {
-                    // Hide ProgressBar and show response
                     progressBar.setVisibility(View.GONE);
                     String botMessage = response.trim();
                     
-                    // Add bot message to the chat
                     addBotMessage(botMessage);
                 },
                 error -> {
-                    // Hide ProgressBar and show error
                     progressBar.setVisibility(View.GONE);
                     String errorMessage = "Error connecting to server";
                     Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
                     
-                    // Add error message as bot message
-                    addBotMessage("Sorry, I'm having trouble connecting to the server.");
+                    addBotMessage("Sorry, Error connecting to the server.");
                 }
         ) {
             @Override
@@ -106,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addUserMessage(String message) {
-        View userMessageView = LayoutInflater.from(this).inflate(R.layout.user_message_item, messagesContainer, false);
+        View userMessageView = LayoutInflater.from(this).inflate(R.layout.user_item, messagesContainer, false);
         TextView userMessageText = userMessageView.findViewById(R.id.userMessageText);
         userMessageText.setText(message);
         messagesContainer.addView(userMessageView);
     }
 
     private void addBotMessage(String message) {
-        View botMessageView = LayoutInflater.from(this).inflate(R.layout.bot_message_item, messagesContainer, false);
+        View botMessageView = LayoutInflater.from(this).inflate(R.layout.bot_item, messagesContainer, false);
         TextView botMessageText = botMessageView.findViewById(R.id.botMessageText);
         botMessageText.setText(message);
         messagesContainer.addView(botMessageView);
